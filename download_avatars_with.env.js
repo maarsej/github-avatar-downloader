@@ -6,13 +6,24 @@ var fs = require('fs');
 require('dotenv').config();
 
 
-const password = process.env.Authenticator;
+var password = process.env.Authenticator;
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 // Function call
+var dlPath = "avatars/";
 
-if (repoOwner && repoName) {
+if (!fs.existsSync(dlPath)) {
+    console.log("Expected avatars folder does not exist");
+    return;
+}
+else if (process.argv.length !== 4) {
+  console.log('repoOwner and repoName must be specified and the only arguements given');
+}
+else if (password === undefined) {
+  console.log('.env file is either missing information or does not exist');
+}
+else if (repoOwner && repoName) {
   getRepoContributors(repoOwner, repoName, function(err, result) {
     arrayOfObj = JSON.parse(result);
     for (var i = 0; i <arrayOfObj.length; i++) {
@@ -21,9 +32,7 @@ if (repoOwner && repoName) {
     }
   });
 }
-else {
-  console.log('repoOwner and repoName must be specified');
-}
+
 
 // FUNCTIONS
 
