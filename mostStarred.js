@@ -15,13 +15,24 @@ var starredObj = getStarredURLs(repoOwner, repoName, function(err, result) {
     URLs[i] = arrayOfObj[i].starred_url;
     output[arrayOfObj[i].login] = URLs[i].substring(0,URLs[i].length - 15);
   }
-  console.log(output);
-  //getstarredreposlist(output, function(err2, result2) {
-    // console.log(result2);
-    // parsedResult = JSON.parse(result2);
-    // console.log(parsedResult.length);
-    console.log('hello world');
-  //});
+  // console.log(output);
+  var mostStarred = {};
+  getstarredreposlist(output, function(err2, result2, body2, count) {
+    var starredRepos = JSON.parse(body2).map(function(star) {
+      return star.full_name;
+    });
+
+    starredRepos.forEach(function(repo) {
+      if (mostStarred[repo] === undefined){
+        mostStarred[repo] = 1;
+      } else {
+        mostStarred[repo] += 1;
+      }
+    });
+    if (count === arrayOfObj.length) {
+      console.log (mostStarred);
+    }
+  });
 });
 
 function getStarredURLs(repoOwner, repoName, cb) {
@@ -42,6 +53,7 @@ function getStarredURLs(repoOwner, repoName, cb) {
 }
 
 function getstarredreposlist(info, callback) {
+  var count = 0;
   for (var user in info) {
     var options = {
       url: info[user],
@@ -50,9 +62,10 @@ function getstarredreposlist(info, callback) {
         'Authorization':password
         }
     };
-    console.log("this is the url: " +  options.url);
+    // console.log("this is the url: " +  options.url);
     request(options, function(err, res, body) {
-      callback(err, body);
+      count += 1;
+      callback(err, res, body, count);
     });
   }
 }
