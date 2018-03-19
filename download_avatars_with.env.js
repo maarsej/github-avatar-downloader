@@ -27,7 +27,7 @@ else if (repoOwner && repoName) {
   getRepoContributors(repoOwner, repoName, function(err, result) {
     arrayOfObj = JSON.parse(result);
     for (var i = 0; i <arrayOfObj.length; i++) {
-      // console.log(arrayOfObj);
+      //console.log(arrayOfObj);
       downloadImageByURL(arrayOfObj[i].avatar_url, `avatars/${arrayOfObj[i].login}.jpg`);
       console.log('Download:', i+1," of ", arrayOfObj.length, " complete.");
     }
@@ -47,7 +47,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
   url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
   headers: {
     'User-Agent': 'request',
-    'Authorization': password
+    'Authorization':password
     }
   };
   request(options, function(err, res, body) {
