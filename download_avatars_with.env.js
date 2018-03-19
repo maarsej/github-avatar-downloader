@@ -27,7 +27,7 @@ else if (repoOwner && repoName) {
   getRepoContributors(repoOwner, repoName, function(err, result) {
     arrayOfObj = JSON.parse(result);
     for (var i = 0; i <arrayOfObj.length; i++) {
-      //console.log(arrayOfObj);
+      // console.log(arrayOfObj);
       downloadImageByURL(arrayOfObj[i].avatar_url, `avatars/${arrayOfObj[i].login}.jpg`);
       console.log('Download:', i+1," of ", arrayOfObj.length, " complete.");
     }
@@ -51,7 +51,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
   };
   request(options, function(err, res, body) {
-    if (err !== 401 || or 403){
+    if (err !== 401 && err !== 403){
       cb(err, body);
     } else {
       console.log ('repo doesnt exist or authetication failed');
