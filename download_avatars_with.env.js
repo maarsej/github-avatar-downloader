@@ -5,11 +5,8 @@ var request = require('request');
 var fs = require('fs');
 require('dotenv').config();
 
-const db = require('db');
-db.connect({
-  password: process.env.Authenticator
-});
-// var secrets = require('./secrets');
+
+const password = process.env.Authenticator;
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
@@ -40,7 +37,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
   url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
   headers: {
     'User-Agent': 'request',
-    'Authorization': db.password
+    'Authorization': password
     }
   };
   request(options, function(err, res, body) {
