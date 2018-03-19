@@ -7,6 +7,7 @@ yarn-error.log*
 
 #authentication holder
 secrets.js
+.env
 
 # Runtime data
 pids
